@@ -1,34 +1,98 @@
 import 'package:flutter/material.dart';
-
-const Color darkBlue = Color.fromARGB(255, 18, 32, 47);
+import 'detalhes.dart';
 
 void main() {
-  runApp(Catalogo());
+  runApp(const MyApp());
 }
 
-class Catalogo extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: darkBlue,
+        scaffoldBackgroundColor: const Color(0xFFF3FDFB),
       ),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: TextoCarlos(),
-        ),
+      home: const MyWidget(),
+    );
+  }
+}
+
+class MyWidget extends StatelessWidget {
+  const MyWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+          backgroundColor: const Color(0xFF44EABB),
+          iconTheme:
+              const IconThemeData(color: Color(0xFF080E2C), opacity: 0.4)),
+      body: GridView.count(
+        crossAxisCount: 2,
+        childAspectRatio: 1.33,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+        mainAxisSpacing: 16,
+        crossAxisSpacing: 8,
+        children: const <Widget>[Product(), Product(), Product(), Product(), Product(), Product(), Product(), Product()],
       ),
     );
   }
 }
 
-class TextoCarlos extends StatelessWidget {
+class Product extends StatelessWidget {
+  const Product({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Text(
-      'Parte do Carlos',
-      style: Theme.of(context).textTheme.headline4,
-    );
+    return InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>  CarouselDemo()),
+          );
+        },
+        child: Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(18),
+            color: const Color(0xFFF3FDFB),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.35),
+                spreadRadius: 0,
+                blurRadius: 18,
+                offset: const Offset(2, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            children: <Widget>[
+              Image.network(
+                  'https://raw.githubusercontent.com/carlos3g/speedwagon-frontend/master/images/product-image.png',
+                  fit: BoxFit.fitWidth),
+              Row(
+                children: <Widget>[
+                  Padding(
+                      padding: const EdgeInsets.only(left: 8, top: 4),
+                      child: Column(children: const <Widget>[
+                        Text(
+                          'Tesla model Y',
+                          style:
+                              TextStyle(fontSize: 14, color: Color(0xFF080E2C)),
+                        ),
+                        Text(
+                          '2 anos de usado',
+                          style:
+                              TextStyle(fontSize: 10, color: Color(0xFF393E56)),
+                        )
+                      ])),
+                ],
+              )
+            ],
+          ),
+        ));
   }
 }
